@@ -1,0 +1,19 @@
+---
+- name: update apt repo
+  action: apt update-cache=yes
+- name: install nginx
+  action: apt name=nginx state=installed
+- name: service nginx
+  action: service name=nginx state=started
+- name: remove default nginx configuration
+  file:
+   path: /etc/nginx/
+   state: absent
+- name: copy nginx configuration
+  copy:
+   src: ./
+   dest: /etc/nginx
+- name: restart nginx
+  service:
+   name: nginx
+   state: restarted

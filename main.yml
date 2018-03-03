@@ -1,0 +1,35 @@
+---
+- name: Creates keypair, vpc, security group, deploys ec2
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - ec2-key
+    - vpc
+    - sg
+    - ec2-instances
+- name: deploys frontend software
+  hosts: frontend_hosts
+  gather_facts: true
+  become: true
+  user: ubuntu
+  roles:
+    - nginx
+    
+- name: deploys backend software
+  hosts: backend_hosts
+  gather_facts: true
+  become: true
+  user: ubuntu
+  roles:
+    - apache2
+
+    
+- name: deploys db software
+  hosts: db_hosts
+  gather_facts: true
+  become: true
+  user: ubuntu
+  roles:
+    - mysql
+#    - wordpress - WIP
