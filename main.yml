@@ -24,7 +24,6 @@
   roles:
     - apache2
 
-    
 - name: deploys db software
   hosts: db_hosts
   gather_facts: true
