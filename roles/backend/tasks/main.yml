@@ -51,12 +51,12 @@
 - name: Create wordpress config file
   sudo: yes
   sudo_user: wordpress
-  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ !!!SQLPRIVIP!!! }}"
+  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ db.results[item.0]['instances'][0]['private_ip'] }}"
 
 - name: Install wordpress
   sudo: yes
   sudo_user: wordpress
-  command: wp core install --url="{{ !!!FRONTENDHOSTNAME!!!! }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
+  command: wp core install --url="{{ frontend.results[item.0]['instances'][0]['public_dns_name'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
 
 - name: Create wordpress user1
   sudo: yes

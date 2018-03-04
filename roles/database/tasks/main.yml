@@ -17,7 +17,7 @@
 - name: copy configuration files
   copy:
    src: ./my.cnf
-   dest: /etc/myslq/my.cnf
+   dest: /etc/mysql/my.cnf
    
 - name: restart mysql
   service:
