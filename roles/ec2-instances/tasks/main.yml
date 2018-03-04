@@ -17,7 +17,15 @@
     instance_tags: { "Name":"eldar-frontend" }
     group: eldar-sg
   register: frontend
-    
+
+- name: add frontend instance to host group at runtime
+  add_host: name="{{ item.public_ip }}" groups=frontend_hosts
+  with_items: "{{ frontend.instances }}"
+
+- name: wait for SSH
+  wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
+  with_items: "{{ frontend.instances }}"  
+
 - name: Create backend ec2 instance
   ec2:
     aws_secret_key: "{{ aws_secret_key }}"
@@ -36,6 +44,14 @@
     instance_tags: { "Name":"eldar-backend" }
     group: eldar-sg
   register: backend
+
+- name: add backend instance to host group at runtime
+  add_host: name="{{ item.public_ip }}" groups=backend_hosts
+  with_items: "{{ backend.instances }}"
+
+- name: wait for SSH
+  wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
+  with_items: "{{ backend.instances }}"  
     
 - name: Create DB ec2 instance
   ec2:
@@ -55,24 +71,11 @@
     instance_tags: { "Name":"eldar-db" }
     group: eldar-sg
   register: db
-  
-- name: add frontend instance to host group at runtime
-  add_host: name="{{ item.public_ip }}" groups=frontend_hosts
-  with_items: "{{ frontend.instances }}"
-- name: wait for SSH
-  wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
-  with_items: "{{ frontend.instances }}"  
-  
-- name: add backend instance to host group at runtime
-  add_host: name="{{ item.public_ip }}" groups=backend_hosts
-  with_items: "{{ backend.instances }}"
-- name: wait for SSH
-  wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
-  with_items: "{{ backend.instances }}"  
         
 - name: add db instance to host group at runtime
   add_host: name="{{ item.public_ip }}" groups=db_hosts
   with_items: "{{ db.instances }}"
+
 - name: wait for SSH
   wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
   with_items: "{{ db.instances }}"  
