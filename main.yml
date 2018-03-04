@@ -1,5 +1,5 @@
 ---
-- name: Creates keypair, vpc, security group, deploys ec2
+- name: Create keypair, vpc, security group, deploy ec2
   hosts: localhost
   connection: local
   gather_facts: no
@@ -9,7 +9,7 @@
     - sg
     - ec2-instances
 
-- name: deploys frontend software
+- name: deploy frontend software
   hosts: frontend_hosts
   gather_facts: true
   become: true
@@ -17,7 +17,7 @@
   roles:
     - frontend
 
-- name: deploys db software
+- name: deploy db software
   hosts: db_hosts
   gather_facts: true
   become: true
@@ -25,10 +25,15 @@
   roles:
     - database
 
-- name: deploys backend software
+- name: deploy backend software
   hosts: backend_hosts
   gather_facts: true
   become: true
   user: ubuntu
   roles:
     - backend
+
+- name: display final installation information
+  hosts: localhost
+  debug: msg="Installed wordpress available at {{ frontend.results[item.0]['instances'][0]['public_dns_name'] }} hostname"
+  debug: msg="Admin username is {{ wp_admin }} and pass is {{ wp_admin_pass }}"
