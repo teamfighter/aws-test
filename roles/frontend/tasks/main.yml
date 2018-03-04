@@ -1,4 +1,9 @@
 ---
+- name: set the facts for host
+  set_fact:
+   public_dns_name: "{{ hostvars['localhost']frontend.results[item.0]['instances'][0]['public_dns_name'] }}"
+   backend_private_ip: "{{ hostvars['localhost']backend.results[item.0]['instances'][0]['private_ip'] }}"
+
 - name: update apt repo
   action: apt update-cache=yes
 

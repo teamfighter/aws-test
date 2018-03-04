@@ -1,4 +1,9 @@
 ---
+- name: set the facts for host
+  set_fact:
+   public_dns_name: "{{ hostvars['localhost']frontend.results[item.0]['instances'][0]['public_dns_name'] }}"
+   db_private_ip: "{{ hostvars['localhost']db.results[item.0]['instances'][0]['private_ip'] }}"
+   
 - name: update apt repo
   action: apt update-cache=yes
 - name: install apache2 and mod_php
@@ -53,12 +58,12 @@
 - name: Create wordpress config file
   sudo: yes
   sudo_user: wordpress
-  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ hostvars['localhost']db.results[item.0]['instances'][0]['private_ip'] }}"
+  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ db_private_ip }}"
 
 - name: Install wordpress
   sudo: yes
   sudo_user: wordpress
-  command: wp core install --url="{{ hostvars['localhost']frontend.results[item.0]['instances'][0]['public_dns_name'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
+  command: wp core install --url="{{ public_dns_name }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
 
 - name: Create wordpress user1
   sudo: yes
