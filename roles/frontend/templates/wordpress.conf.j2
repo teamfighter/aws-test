@@ -1,6 +1,6 @@
 server {
   listen      80;
-  server_name "{{ frontend.results[item.0]['instances'][0]['public_dns_name'] }}";
+  server_name "{{ hostvars['localhost']frontend.results[item.0]['instances'][0]['public_dns_name'] }}";
 
   client_max_body_size 500m;
 
@@ -9,7 +9,7 @@ server {
     proxy_set_header    X-Real-IP $remote_addr;
     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header    X-Forwarded-Proto $scheme;
-    proxy_pass          http://"{{ backend.results[item.0]['instances'][0]['private_ip'] }}";
+    proxy_pass          http://"{{ hostvars['localhost']backend.results[item.0]['instances'][0]['private_ip'] }}";
     proxy_read_timeout  90;
   }
   location ~* .(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
@@ -20,7 +20,7 @@ server {
         proxy_set_header    X-Real-IP $remote_addr;
         proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header    X-Forwarded-Proto $scheme;
-        proxy_pass          http://"{{ backend.results[item.0]['instances'][0]['private_ip'] }}";
+        proxy_pass          http://"{{ hostvars['localhost']backend.results[item.0]['instances'][0]['private_ip'] }}";
         proxy_read_timeout  90;
         }
 
