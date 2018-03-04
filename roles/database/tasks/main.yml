@@ -13,6 +13,7 @@
    - mysql-server
    - mysql-client
    - python-mysqldb
+   
 - name: copy configuration files
   copy:
    src: ./my.cnf
@@ -20,5 +21,12 @@
    
 - name: restart mysql
   service:
-   name: mysqld
+   name: mysql
    state: restarted
+
+- name: Create database
+  command: mysql -uroot -p"{{ MySQL_root_pass }}" --execute="CREATE database "{{ wp_dbname }}""
+
+- name: Create user and allow remote connection
+  command: mysql -uroot -p"{{ MySQL_root_pass }}" --execute="CREATE USER '"{{ wp_dbuser }}"'@'%' IDENTIFIED BY '"{{ wp_dbpass }}"'; GRANT ALL ON "{{ wp_dbname }}".* TO '"{{ wp_dbuser }}"'@'%';"
+  
