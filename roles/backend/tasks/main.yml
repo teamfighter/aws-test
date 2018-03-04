@@ -1,0 +1,74 @@
+---
+- name: update apt repo
+  action: apt update-cache=yes
+- name: install apache2 and mod_php
+  action: apt pkg={{item}} state=installed
+  with_items:
+   - apache2
+   - libapache2-mod-php5
+   - php5-mysql
+   - php5-curl
+   - php5-gd
+   - php5-curl
+   - php5-common
+   - php5-cli
+   - curl
+   - libcurl3
+   - libcurl3-dev
+   - mysql-client
+# As this is test task we are using default apache2 configuration,
+# so default locations will be used for backend html dir
+- name: restart apache2
+  service:
+   name: apache2
+   state: restarted
+
+- name: download wp-cli
+  get_url: url=https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar dest=/usr/local/bin/wp
+  
+- name: update permissions of wp-cli to allow anyone to execute it
+  file: path=/usr/local/bin/wp mode="0755"  
+
+- name: update permissions of /var/www/html
+  file: path=/var/www/html/ owner=www-data group=www-data mode="0777" recurse=yes
+    
+- name: Add user "wordpress", belonging to group "www-data" and having a home dir of /var/www/html
+  user: name=wordpress group=www-data home=/var/www/html
+
+- name: Give ownership of /var/www/html to the www-data user
+  file: name=/var/www/html group=www-data owner=www-data
+  
+- name: Remove some garbage
+  file:
+   path: /var/www/html/index.html
+   state: absent
+  
+- name: Download wordpress into /var/www/html using wp[-cli] command as the wordpress user
+  sudo: yes
+  sudo_user: wordpress
+  command: wp core download --path=/var/www/html/
+
+- name: Create wordpress config file
+  sudo: yes
+  sudo_user: wordpress
+  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ !!!SQLPRIVIP!!! }}"
+
+- name: Install wordpress
+  sudo: yes
+  sudo_user: wordpress
+  command: wp core install --url="{{ !!!FRONTENDHOSTNAME!!!! }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
+
+- name: Create wordpress user1
+  sudo: yes
+  sudo_user: wordpress
+  command: wp user create "{{ wp_user1 }}" "{{ wp_user1_email }}" --user_pass="{{ wp_user1_pass }}"
+
+- name: Create wordpress user2
+  sudo: yes
+  sudo_user: wordpress
+  command: wp user create "{{ wp_user2 }}" "{{ wp_user2_email }}" --user_pass="{{ wp_user2_pass }}"
+
+- name: Create wordpress user3
+  sudo: yes
+  sudo_user: wordpress
+  command: wp user create "{{ wp_user3 }}" "{{ wp_user3_email }}" --user_pass="{{ wp_user3_pass }}"

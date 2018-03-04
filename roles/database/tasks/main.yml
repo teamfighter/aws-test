@@ -1,0 +1,24 @@
+---
+- name: update apt repo
+  action: apt update-cache=yes
+
+- name: Set MySQL root password before installing
+  debconf: name='mysql-server' question='mysql-server/root_password' value='{{ MySQL_root_pass | quote }}' vtype='password'
+- name: Confirm MySQL root password before installing
+  debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ MySQL_root_pass | quote }}' vtype='password'
+        
+- name: install mysql-server
+  action: apt pkg={{item}} state=installed
+  with_items:
+   - mysql-server
+   - mysql-client
+   - python-mysqldb
+- name: copy configuration files
+  copy:
+   src: ./my.cnf
+   dest: /etc/myslq/my.cnf
+   
+- name: restart mysql
+  service:
+   name: mysqld
+   state: restarted

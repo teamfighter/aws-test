@@ -8,21 +8,14 @@
     - vpc
     - sg
     - ec2-instances
+
 - name: deploys frontend software
   hosts: frontend_hosts
   gather_facts: true
   become: true
   user: ubuntu
   roles:
-    - nginx
-    
-- name: deploys backend software
-  hosts: backend_hosts
-  gather_facts: true
-  become: true
-  user: ubuntu
-  roles:
-    - apache2
+    - frontend
 
 - name: deploys db software
   hosts: db_hosts
@@ -30,5 +23,12 @@
   become: true
   user: ubuntu
   roles:
-    - mysql
-#    - wordpress - WIP
+    - database
+
+- name: deploys backend software
+  hosts: backend_hosts
+  gather_facts: true
+  become: true
+  user: ubuntu
+  roles:
+    - backend
