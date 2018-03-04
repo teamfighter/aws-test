@@ -2,7 +2,7 @@ Installs small wordpress AWS cluster with preconfigured users
 
 Requirements at ansible host:
 python3-mobo
-pythom3-mobo3
+python3-mobo3
 python-mobo
 python-mobo3
 python-mysqldb
@@ -20,6 +20,6 @@ This ansible playbook do following things:
 
 To start playbook, provide aws_access_key and aws_secret_key variables, install requirements and type following command:
 
-ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook -vvv main.yml
+ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook main.yml
 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)

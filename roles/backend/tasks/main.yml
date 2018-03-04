@@ -16,6 +16,8 @@
    - libcurl3
    - libcurl3-dev
    - mysql-client
+   - acl
+   - acl2
 # As this is test task we are using default apache2 configuration,
 # so default locations will be used for backend html dir
 - name: restart apache2
