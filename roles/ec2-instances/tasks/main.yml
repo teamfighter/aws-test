@@ -18,6 +18,11 @@
     group: eldar-sg
   register: frontend
 
+- name: set the facts for frontend host
+  set_fact:
+   frontend_dns: "{{ item.public_dns_name }}"
+  with_items: "{{ frontend.instances }}"
+  
 - name: add frontend instance to host group at runtime
   add_host: name="{{ item.public_ip }}" groups=frontend_hosts
   with_items: "{{ frontend.instances }}"
@@ -44,6 +49,11 @@
     instance_tags: { "Name":"eldar-backend" }
     group: eldar-sg
   register: backend
+  
+- name: set the facts for backend host
+  set_fact:
+   backend_private_ip: "{{ item.private_ip }}"
+  with_items: "{{ backend.instances }}"
 
 - name: add backend instance to host group at runtime
   add_host: name="{{ item.public_ip }}" groups=backend_hosts
@@ -71,7 +81,12 @@
     instance_tags: { "Name":"eldar-db" }
     group: eldar-sg
   register: db
-        
+
+- name: set the facts for db host
+  set_fact:
+   db_private_ip: "{{ item.public_dns_name }}"
+  with_items: "{{ db.instances }}"
+          
 - name: add db instance to host group at runtime
   add_host: name="{{ item.public_ip }}" groups=db_hosts
   with_items: "{{ db.instances }}"

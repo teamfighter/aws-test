@@ -35,6 +35,7 @@
 
 - name: display final installation information
   hosts: localhost
+  connection: local
   tasks:
-  - debug: msg="Installed wordpress available at "{{ frontend.results[item.0]['instances'][0]['public_dns_name'] }}" hostname"
+  - debug: msg="Installed wordpress available at "{{ frontend_dns }}" hostname"
   - debug: msg="Admin username is "{{ wp_admin }}" and pass is "{{ wp_admin_pass }}""
