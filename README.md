@@ -17,3 +17,9 @@ This ansible playbook do following things:
 	b. Backend as Apache2 + mod_php webserver
 	c. Database as mysql server
 6. Installs wordpress at backend with username variables provided in ./group_vars/all
+
+To start playbook, provide aws_access_key and aws_secret_key variables, install requirements and type following command:
+
+ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook -vvv main.yml
+
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
