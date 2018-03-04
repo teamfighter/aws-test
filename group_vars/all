@@ -27,7 +27,7 @@ wp_user1_pass: user1pass
 wp_user1_email: user1@example.com
 wp_user2: user2
 wp_user2_pass: user2pass
-wp_user3_email: user2@example.com
+wp_user2_email: user2@example.com
 wp_user3: user3
 wp_user3_pass: user3pass
 wp_user3_email: user3@example.com
