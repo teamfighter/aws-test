@@ -22,4 +22,7 @@ To start playbook, provide aws_access_key and aws_secret_key variables, install 
 
 ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook main.yml
 
+Improvements to do:
+Add SSL to configuration with Let`s Encrypt
+
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
