@@ -1,9 +1,4 @@
 ---
-- name: set the facts for host
-  set_fact:
-   public_dns_name: "{{ hostvars['localhost']['frontend.results'][item.0]['instances'][0]['public_dns_name'] }}"
-   db_private_ip: "{{ hostvars['localhost']['db.results'][item.0]['instances'][0]['private_ip'] }}"
-   
 - name: update apt repo
   action: apt update-cache=yes
 - name: install apache2 and mod_php
@@ -63,7 +58,7 @@
 - name: Install wordpress
   sudo: yes
   sudo_user: wordpress
-  command: wp core install --url="{{ hostvars['localhost']['frontend_dns'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email=info@example.com --skip-email
+  command: wp core install --url="{{ hostvars['localhost']['frontend_dns'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email="{{ wp_admin_email }}" --skip-email
 
 - name: Create wordpress user1
   sudo: yes
