@@ -15,7 +15,7 @@
 
 - name: fix nginx.conf   
   copy:
-   src=./nginx.conf
+   src: ./nginx.conf
    dest: /etc/nginx/nginx.conf
 
 - name: create symlink to configuration file
