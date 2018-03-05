@@ -53,24 +53,24 @@
 - name: Create wordpress config file
   sudo: yes
   sudo_user: wordpress
-  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ hostvars['localhost']['db_private_ip'] }}"
+  command: wp config create --dbname="{{ wp_dbname }}" --dbuser="{{ wp_dbuser }}" --dbpass="{{ wp_dbpass }}" --dbhost="{{ hostvars['localhost']['db_private_ip'] }}" --path=/var/www/html/
 
 - name: Install wordpress
   sudo: yes
   sudo_user: wordpress
-  command: wp core install --url="{{ hostvars['localhost']['frontend_dns'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email="{{ wp_admin_email }}" --skip-email
+  command: wp core install --url="{{ hostvars['localhost']['frontend_dns'] }}" --title=Example --admin_user="{{ wp_admin }}" --admin_password="{{ wp_admin_pass }}" --admin_email="{{ wp_admin_email }}" --skip-email --path=/var/www/html/
 
 - name: Create wordpress user1
   sudo: yes
   sudo_user: wordpress
-  command: wp user create "{{ wp_user1 }}" "{{ wp_user1_email }}" --user_pass="{{ wp_user1_pass }}"
+  command: wp user create "{{ wp_user1 }}" "{{ wp_user1_email }}" --user_pass="{{ wp_user1_pass }}" --path=/var/www/html/
 
 - name: Create wordpress user2
   sudo: yes
   sudo_user: wordpress
-  command: wp user create "{{ wp_user2 }}" "{{ wp_user2_email }}" --user_pass="{{ wp_user2_pass }}"
+  command: wp user create "{{ wp_user2 }}" "{{ wp_user2_email }}" --user_pass="{{ wp_user2_pass }}" --path=/var/www/html/
 
 - name: Create wordpress user3
   sudo: yes
   sudo_user: wordpress
-  command: wp user create "{{ wp_user3 }}" "{{ wp_user3_email }}" --user_pass="{{ wp_user3_pass }}"
+  command: wp user create "{{ wp_user3 }}" "{{ wp_user3_email }}" --user_pass="{{ wp_user3_pass }}" --path=/var/www/html/
