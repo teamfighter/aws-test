@@ -6,7 +6,6 @@
     aws_secret_key: "{{ aws_secret_key }}"
     cidr_block: 172.22.0.0/16
     resource_tags: { "Name":"eldar-vpc" }
-    region: "{{ region }}"
     subnets:
       - cidr: 172.22.1.0/24
         resource_tags: { "Name":"frontend_cidr" }
