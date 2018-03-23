@@ -2,8 +2,8 @@
 # AWS variables
 region: us-east-1
 aws_access_key: KEY
-aws_secret_key: SECRET	
-image: ami-66506c1c
+aws_secret_key: SECRET
+image: ami-0492a0c3e07bf2b2f
 instance_type: t2.micro
 
 # Local variables
