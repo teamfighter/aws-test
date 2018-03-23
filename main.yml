@@ -17,27 +17,10 @@
   roles:
     - frontend
 
-- name: deploy db software
-  hosts: db_hosts
-  gather_facts: true
-  become: true
-  user: ubuntu
-  roles:
-    - database
-
-- name: deploy backend software
-  hosts: backend_hosts
-  gather_facts: true
-  become: true
-  user: ubuntu
-  roles:
-    - backend
-
 - name: display final installation information
   hosts: localhost
   connection: local
   tasks:
-  - debug: msg="Installed wordpress available at http://{{ frontend_dns }} hostname"
-  - debug: msg="Admin username is {{ wp_admin }} and pass is {{ wp_admin_pass }}"
+  - debug: msg="Installed instance available at http://{{ frontend_dns }} hostname"
   - debug: msg="Your SSH private key stored as {{ keyname }}.pem in working directory"
   - debug: msg="Written by Eldar Karazhas. Have a nice day!"

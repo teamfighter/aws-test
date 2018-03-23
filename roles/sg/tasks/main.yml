@@ -20,10 +20,6 @@
          from_port: 443
          to_port: 443
          cidr_ip: 0.0.0.0/0
-       - proto: tcp
-         from_port: 3306
-         to_port: 3306
-         cidr_ip: 172.22.2.0/24         
 - name: Gather subnet facts and register them
   ec2_vpc_subnet_facts:
     aws_secret_key: "{{ aws_secret_key }}"

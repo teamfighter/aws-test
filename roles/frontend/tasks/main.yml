@@ -1,17 +1,26 @@
 ---
+- name: add microsoft gpg key
+  raw: curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+- name: add microsoft repository 
+  raw: echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-zesty-prod zesty main" > /etc/apt/sources.list.d/dotnetdev.list
+
 - name: update apt repo
   action: apt update-cache=yes
 
-- name: install nginx
-  action: apt name=nginx state=installed
+- name: install packages
+  action: apt pkg={{item}} state=installed
+  with_items:
+   - nginx
+   - dotnet-sdk-2.1.4
 
 - name: service nginx
   action: service name=nginx state=started
 
 - name: setup nginx configuration for wordpress
   template:
-   src=wordpress.conf.j2
-   dest=/etc/nginx/sites-available/wordpress.conf
+   src=dotnet.conf.j2
+   dest=/etc/nginx/sites-available/dotnet.conf
 
 - name: fix nginx.conf   
   copy:
@@ -20,8 +29,8 @@
 
 - name: create symlink to configuration file
   file:
-   src: "/etc/nginx/sites-available/wordpress.conf"
-   dest: "/etc/nginx/sites-enabled/wordpress.conf"
+   src: "/etc/nginx/sites-available/dotnet.conf"
+   dest: "/etc/nginx/sites-enabled/dotnet.conf"
    state: link
 
 - name: restart nginx

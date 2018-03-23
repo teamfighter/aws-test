@@ -1,33 +1,11 @@
 ---
 # AWS variables
-region: eu-west-1
+region: us-east-1
 aws_access_key: KEY
-aws_secret_key: SECRET
-image: ami-78d2be01
+aws_secret_key: SECRET	
+image: ami-66506c1c
 instance_type: t2.micro
 
 # Local variables
 keyname: eldar
 ansible_ssh_private_key_file: ./eldar.pem
-MySQL_root_pass: SuperSecretPassword
-
-# Wordpress-related variables
-wp_dbname: wp
-wp_dbuser: wordpress
-wp_dbpass: superpassword
-
-# Wordpress admin creds
-wp_admin: superadmin
-wp_admin_pass: superpass
-wp_admin_email: admin@example.com
-
-# Wordpress user creds
-wp_user1: user1
-wp_user1_pass: user1pass
-wp_user1_email: user1@example.com
-wp_user2: user2
-wp_user2_pass: user2pass
-wp_user2_email: user2@example.com
-wp_user3: user3
-wp_user3_pass: user3pass
-wp_user3_email: user3@example.com

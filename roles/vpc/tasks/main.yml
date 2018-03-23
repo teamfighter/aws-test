@@ -9,18 +9,8 @@
     subnets:
       - cidr: 172.22.1.0/24
         resource_tags: { "Name":"frontend_cidr" }
-      - cidr: 172.22.2.0/24
-        resource_tags: { "Name":"backend_cidr" }
-      - cidr: 172.22.3.0/24
-        resource_tags: { "Name":"db_cidr" }
     internet_gateway: True
     route_tables:
-      - subnets:
-          - 172.22.2.0/24
-          - 172.22.3.0/24
-        routes:
-          - dest: 0.0.0.0/0
-            gw: igw
       - subnets:
           - 172.22.1.0/24
         routes:
