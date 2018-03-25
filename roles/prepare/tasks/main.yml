@@ -1,6 +1,6 @@
 ---
 - name: prepare playbook directory for deployment
-  command: mkdir "{{ hostvars['localhost']['deploy_dir'] }}"
+  command: mkdir -p "{{ hostvars['localhost']['deploy_dir'] }}"
 
 - name: prepare inventory
   template:
