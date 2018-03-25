@@ -1,13 +1,16 @@
 ---
 - name: prepare playbook directory for deployment
-  command: mkdir -p "{{ hostvars['localhost']['deploy_dir'] }}"
+  raw: mkdir -p "{{ hostvars['localhost']['deploy_dir'] }}"
 
 - name: prepare inventory
   template:
    src=inventory.j2
-   dest="{{ hostvars['localhost']['deploy_dir'] }}"/inventory
+   dest="{{ hostvars['localhost']['deploy_dir'] }}"
 
 - name: copy rest playbook files
   copy:
    src: ./
    dest: "{{ hostvars['localhost']['deploy_dir'] }}"
+
+- name: fix inventory
+  raw: mv "{{ hostvars['localhost']['deploy_dir'] }}"/inventory.j2 "{{ hostvars['localhost']['deploy_dir'] }}"/inventory

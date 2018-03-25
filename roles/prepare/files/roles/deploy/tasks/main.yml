@@ -13,7 +13,7 @@
 
 - name: (re)deploy application
   synchronize:
-   src: /opt/TeamCity/buildAgent/work/2f1675a8d29980ef/SampleApi/
+   src: /opt/TeamCity/buildAgent/work/b00559017fce4df7/SampleApi/
    dest: /var/www/SampleApi/
   tags:
      - deploy
