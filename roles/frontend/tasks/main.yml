@@ -5,6 +5,12 @@
 - name: add microsoft repository 
   raw: echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list
 
+- name: kill automatic updating script, if any
+  command: pkill --full /usr/bin/unattended-upgrade
+  register: kill_result
+  failed_when: kill_result.rc > 1 # rc == 1 if the script is inactive
+  changed_when: kill_result.rc == 0
+
 - name: update apt repo
   action: apt update-cache=yes
 
@@ -13,6 +19,9 @@
   with_items:
    - nginx
    - dotnet-sdk-2.1.4
+
+- name: Create directory for project
+  raw: mkdir -p /var/www/SampleApi
 
 - name: service nginx
   action: service name=nginx state=started
@@ -37,3 +46,11 @@
   service:
    name: nginx
    state: restarted
+
+- name: create systemd job for dotnet core
+  copy:
+   src: ./kestrel.service
+   dest: /etc/systemd/system/kestrel.service
+
+- name: enable kestrel
+  raw: systemctl enable kestrel.service

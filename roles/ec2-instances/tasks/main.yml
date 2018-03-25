@@ -21,12 +21,18 @@
 - name: set the facts for frontend host
   set_fact:
    frontend_dns: "{{ item.public_dns_name }}"
+   frontend_ip: "{{ item.public_ip }}"
   with_items: "{{ frontend.instances }}"
   
-- name: add frontend instance to host group at runtime
-  add_host: name="{{ item.public_ip }}" groups=frontend_hosts
+- name: add frontend instance to in-memory inventory at runtime
+  add_host: name="{{ item.public_ip }}" 
+            groups=frontend_hosts
+            ansible_python_interpreter=/usr/bin/python3
   with_items: "{{ frontend.instances }}"
 
 - name: wait for SSH
   wait_for: host="{{ item.public_ip }}" port=22 delay=60 timeout=320 state=started
   with_items: "{{ frontend.instances }}"  
+
+- name: and wait little bit more
+  raw: sleep 20

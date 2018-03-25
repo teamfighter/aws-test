@@ -1,0 +1,13 @@
+[Unit]
+Description=Example .NET Web API App running on Ubuntu
+
+[Service]
+WorkingDirectory=/var/www/SampleApi
+ExecStart=/usr/bin/dotnet /var/www/SampleApi/bin/Debug/netcoreapp2.0/SampleApi.dll
+Restart=always
+RestartSec=10  # Restart service after 10 seconds if dotnet service crashes
+SyslogIdentifier=dotnet
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

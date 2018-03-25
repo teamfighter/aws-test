@@ -3,9 +3,10 @@
 region: us-east-1
 aws_access_key: KEY
 aws_secret_key: SECRET
-image: ami-0492a0c3e07bf2b2f
+image: ami-66506c1c
 instance_type: t2.micro
 
 # Local variables
 keyname: eldar
 ansible_ssh_private_key_file: ./eldar.pem
+deploy_dir: /home/eldar/deploy

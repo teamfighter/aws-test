@@ -1,0 +1,19 @@
+---
+- name: start application
+  shell: systemctl start kestrel
+  async: 10
+  poll: 0
+  tags:
+     - start
+
+- name: stop application
+  command: systemctl stop kestrel
+  tags:
+     - stop
+
+- name: (re)deploy application
+  synchronize:
+   src: /opt/TeamCity/buildAgent/work/2f1675a8d29980ef/SampleApi/
+   dest: /var/www/SampleApi/
+  tags:
+     - deploy

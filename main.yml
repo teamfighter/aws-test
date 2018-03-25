@@ -17,6 +17,12 @@
   roles:
     - frontend
 
+- name: prepare playbook for teamcity
+  hosts: localhost
+  connection: local
+  roles:
+    - prepare
+
 - name: display final installation information
   hosts: localhost
   connection: local
