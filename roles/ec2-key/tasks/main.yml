@@ -11,6 +11,11 @@
   copy: content="{{ mykey.key.private_key }}" dest="./{{ keyname }}.pem" mode=0600
   when: mykey.changed
 
+- name: copy key to .ssh dir
+  copy:
+   src: "./{{ keyname }}.pem"
+   dest: /root/.ssh/
+
 - name: double-check that permissions are correct
   file:
    path: "./{{ keyname }}.pem"
@@ -18,7 +23,9 @@
    group: root
    mode: 0600
 
-- name: copy key to .ssh dir
-  copy:
-   src: "./{{ keyname }}.pem"
-   dest: /root/.ssh/
+- name: double-check that permissions are correct
+  file:
+   path: "/root/.ssh/{{ keyname }}.pem"
+   owner: root
+   group: root
+   mode: 0600
