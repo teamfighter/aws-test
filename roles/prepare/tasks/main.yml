@@ -5,7 +5,7 @@
 - name: prepare inventory
   template:
    src=inventory.j2
-   dest="{{ hostvars['localhost']['deploy_dir'] }}"
+   dest="{{ hostvars['localhost']['deploy_dir'] }}"/inventory
 
 - name: copy rest playbook files
   copy:
